@@ -1,6 +1,8 @@
 import { action, persist, thunk } from 'easy-peasy';
 import getPlaylist from '../api';
 
+const STORAGE_KEY = "cy__playlist__key";
+
 const playlistModel = persist({
     data: {},
     error: '',
@@ -20,9 +22,11 @@ const playlistModel = persist({
         setLoading(true);
         try {
             const playlist = await getPlaylist(playlistId);
-            addPlaylist(playlist)
+            addPlaylist(playlist);
+            // storage.save(STORAGE_KEY, state.data)
+            setError('')
         } catch (err) {
-            setError(e.response?.data?.error?.message || "Something went wrong");
+            setError(err.response?.data?.error?.message || "Something went wrong");
         } finally{setLoading(false)}
     })
 });

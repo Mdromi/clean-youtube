@@ -1,6 +1,5 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -14,23 +13,18 @@ import Typography from "@mui/material/Typography";
 import { Link as RouterLink } from "react-router-dom";
 
 import { useState } from "react";
-// import PlaylistForm from "../playlist-form/playlist-form";
+import AddPlaylist from "../playlist-form/AddPlaylist";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
-    alert(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  //   const getPlaylistId = (playlistId) => {
-  //     getPlaylistById(playlistId);
-  //   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -54,29 +48,25 @@ const Navbar = () => {
               </Link>
             </Stack>
             <Box>
-              <IconButton
-                onClick={handleClickOpen}
-                size="medium"
-                aria-label="show 4 new mails"
-                component="label"
-                sx={{ marginLeft: 5 }}
+              <Link
+                href="https://github.com/Mdromi/clean-youtube"
+                target={"_blank"}
               >
-                <GitHubIcon />
-              </IconButton>
+                <IconButton size="medium">
+                  <GitHubIcon />
+                </IconButton>
+              </Link>
+
               <Button
+                onClick={handleClickOpen}
                 variant="outlined"
                 color="inherit"
                 startIcon={<AddCircleOutlineIcon />}
               >
                 Add Playlist
-                <MoreHorizIcon />
               </Button>
             </Box>
-            {/* <PlaylistForm
-              open={open}
-              handleClose={handleClose}
-              getPlaylistId={getPlaylistId}
-            /> */}
+            <AddPlaylist open={open} handleClose={handleClose} />
           </Toolbar>
         </Container>
       </AppBar>
