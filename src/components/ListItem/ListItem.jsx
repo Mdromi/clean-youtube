@@ -1,4 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PlayCircleOutline from "@mui/icons-material/PlayCircleOutline";
 import Box from "@mui/material/Box";
@@ -10,6 +11,7 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/system";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link } from "react-router-dom";
 
 const ListItem = ({
@@ -18,6 +20,25 @@ const ListItem = ({
   channelTitle,
   playlistId,
 }) => {
+  const favPlaylist = useStoreActions((action) => action.favorites);
+  const playlists = useStoreState((actions) => actions.playlists.data);
+  const playlistsItems = useStoreState((actions) => actions.favorites.items);
+
+  let playlistFind = null;
+
+  // set & remove favorite items on (playlist | favPlaylist)
+  const favorites = (playlistId) => {
+    playlistFind = playlistsItems.find((ele) => ele === playlistId);
+    console.log("click");
+    if (!playlistFind) {
+      playlists[playlistId].favorite = true;
+      return favPlaylist.addFavorite(playlistId);
+    } else {
+      playlists[playlistId].favorite = false;
+      return favPlaylist.removeFromFavorite(playlistId);
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -57,8 +78,12 @@ const ListItem = ({
             </Stack>
           </Button>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <IconButton size="medium">
-              <FavoriteBorderIcon />
+            <IconButton size="medium" onClick={() => favorites(playlistId)}>
+              {playlists[playlistId].favorite ? (
+                <FavoriteIcon />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
             </IconButton>
             <IconButton size="medium">
               <DeleteIcon />

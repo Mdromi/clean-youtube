@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import { Link as RouterLink } from "react-router-dom";
 
 import { useState } from "react";
-import AddPlaylist from "../playlist-form/AddPlaylist";
+import AddPlaylist from "../form/AddPlaylist";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ const Navbar = () => {
       <AppBar position="fixed" color="default" sx={{ py: 1 }}>
         <Container>
           <Toolbar>
-            <Stack sx={{ flexGrow: 1 }}>
+            <Stack sx={{ flexGrow: 1, display: "inline-block" }}>
               <Link
                 to="/"
                 component={RouterLink}

@@ -9,11 +9,15 @@ const PlaylistCardItem = () => {
   const playlistArray = Object.values(playlists);
   return (
     <div>
-      <Container maxWidth={"md"} sx={{ marginTop: 16 }}>
-        <Typography variant="h5" color="text.primary" sx={{ marginLeft: 1.5 }}>
-          All Playlist
-        </Typography>
-        {playlistArray.length > 0 && (
+      {playlistArray.length > 0 && (
+        <Container maxWidth={"md"} sx={{ marginTop: 6 }}>
+          <Typography
+            variant="h5"
+            color="text.primary"
+            sx={{ marginLeft: 1.5 }}
+          >
+            {`All Playlist (${playlistArray.length})`}
+          </Typography>
           <Grid container sx={{ alignItems: "stretch" }}>
             {playlistArray.map((item) => (
               <Grid item xs={12} md={5} lg={4} mb={2} key={item.playlistId}>
@@ -26,8 +30,8 @@ const PlaylistCardItem = () => {
               </Grid>
             ))}
           </Grid>
-        )}
-      </Container>
+        </Container>
+      )}
     </div>
   );
 };
