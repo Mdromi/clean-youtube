@@ -22,10 +22,11 @@ const playlistModel = persist({
         setLoading(true);
         try {
             const playlist = await getPlaylist(playlistId);
-            addPlaylist(playlist);
             // storage.save(STORAGE_KEY, state.data)
+            addPlaylist(playlist);
             setError('')
         } catch (err) {
+            console.log(err);
             setError(err.response?.data?.error?.message || "Something went wrong");
         } finally{setLoading(false)}
     })

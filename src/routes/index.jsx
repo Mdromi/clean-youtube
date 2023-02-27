@@ -4,6 +4,7 @@ import Navbar from "../components/common/Navbar";
 import Home from "../pages/Home";
 
 import NotFound from "../pages/NotFound";
+import PlayerPage from "../pages/PlayerPage";
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/player/:playlistId" element={<PlayerPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

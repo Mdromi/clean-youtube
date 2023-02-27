@@ -14,6 +14,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { useState } from "react";
 import AddPlaylist from "../form/AddPlaylist";
+import SearchBtn from "../form/SearchBtn";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -27,7 +28,7 @@ const Navbar = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ display: "inline-flex", justifyContent: "space-between" }}>
       <AppBar position="fixed" color="default" sx={{ py: 1 }}>
         <Container>
           <Toolbar>
@@ -47,7 +48,8 @@ const Navbar = () => {
                 <Typography variant="body1">By Md Romi</Typography>
               </Link>
             </Stack>
-            <Box>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <SearchBtn />
               <Link
                 href="https://github.com/Mdromi/clean-youtube"
                 target={"_blank"}

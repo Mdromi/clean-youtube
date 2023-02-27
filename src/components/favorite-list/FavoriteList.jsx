@@ -21,10 +21,10 @@ const FavoriteList = () => {
             {`Favorites (${favPlaylist.length})`}
           </Typography>
           <Grid container sx={{ alignItems: "stretch" }}>
-            {playlistArray.map((item) => (
+            {playlistArray.map((item, index) => (
               <>
                 {item.favorite && (
-                  <Grid item xs={12} md={5} lg={4} mb={2} key={item.playlistId}>
+                  <Grid item xs={12} md={5} lg={4} mb={2} key={index}>
                     <ListItem
                       playlistId={item.playlistId}
                       playlistThumbnail={item.playlistThumbnail}
