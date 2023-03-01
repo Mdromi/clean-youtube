@@ -41,7 +41,7 @@ const PlaylistForm = ({ open, handleClose, getPlaylistId }) => {
           margin="dense"
           id="name"
           label="Only Playlist id or link"
-          type="email"
+          type="text"
           fullWidth
           variant="standard"
           onChange={(e) => setState(e.target.value)}

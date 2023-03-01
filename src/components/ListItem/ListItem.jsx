@@ -21,14 +21,16 @@ const ListItem = ({
   playlistId,
 }) => {
   const favPlaylist = useStoreActions((action) => action.favorites);
+  const playlistAction = useStoreActions((action) => action.playlists);
+
   const playlists = useStoreState((actions) => actions.playlists.data);
-  const playlistsItems = useStoreState((actions) => actions.favorites.items);
+  const favPlaylistsItems = useStoreState((actions) => actions.favorites.items);
 
   let playlistFind = null;
 
   // set & remove favorite items on (playlist | favPlaylist)
   const favorites = (playlistId) => {
-    playlistFind = playlistsItems.find((ele) => ele === playlistId);
+    playlistFind = favPlaylistsItems.find((ele) => ele === playlistId);
     console.log("click");
     if (!playlistFind) {
       playlists[playlistId].favorite = true;
@@ -37,6 +39,12 @@ const ListItem = ({
       playlists[playlistId].favorite = false;
       return favPlaylist.removeFromFavorite(playlistId);
     }
+  };
+
+  // remove playlist
+  const removePlaylist = (playlistId) => {
+    playlistAction.removePlaylist(playlistId);
+    favPlaylist.removeFromFavorite(playlistId);
   };
 
   return (
@@ -85,7 +93,10 @@ const ListItem = ({
                 <FavoriteBorderIcon />
               )}
             </IconButton>
-            <IconButton size="medium">
+            <IconButton
+              size="medium"
+              onClick={() => removePlaylist(playlistId)}
+            >
               <DeleteIcon />
             </IconButton>
           </Box>

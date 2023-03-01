@@ -6,7 +6,6 @@ import ListItem from "../ListItem/ListItem";
 
 const SearchItems = () => {
   const searchItems = useStoreState((actions) => actions.searchItems.items);
-  console.log("searchItems", searchItems.length);
   return (
     <div>
       <div>

@@ -6,6 +6,7 @@ const STORAGE_KEY = "cy__playlist__key";
 const playlistModel = persist({
     data: {},
     error: '',
+    notes: {},
     isLoading: false,
     setLoading: action((state, payload) => {
         state.isLoading = payload;
@@ -15,6 +16,12 @@ const playlistModel = persist({
     }),
     addPlaylist: action((state, payload) => {
         state.data[payload.playlistId] = payload;
+    }),
+    removePlaylist: action((state, playlistId) => {
+        delete state.data[playlistId];
+    }),
+    addNotes: action((state, payload) => {
+        state.notes[payload.playlistId] = payload;
     }),
     getPlaylist: thunk(async({addPlaylist, setLoading, setError}, playlistId, {getState}) => {
         if (getState().data[playlistId]) return;
