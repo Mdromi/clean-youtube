@@ -19,9 +19,9 @@ const VideoPlayer = () => {
   );
 
   // get current player items
-  const currentPlayerItems = useStoreState(
-    (actions) => actions.currentPlayerItems.items
-  );
+  // const currentPlayerItems = useStoreState(
+  //   (actions) => actions.currentPlayerItems.items
+  // );
 
   // current player action
   const currentVideo = useStoreActions((actions) => actions.currentPlayerItems);
@@ -34,22 +34,16 @@ const VideoPlayer = () => {
   const current = playlists[playlistId];
   if (!current) return;
 
-  const { chanelName, channelTitle, playlistTitle } = { ...current };
+  const { chanelName } = { ...current };
 
   useEffect(() => {
     currentPlayer.addPlayer(current.playlistItems);
   }, []);
-  // console.log("currentPlayerItems", currentPlayerItems);
+  console.log("currentPlayerItems", currentPlayerVideo);
 
   let videoId =
     current.playlistItems[currentPlayerVideo - 1].contentDetails.videoId;
   const { title, description } = current.playlistItems[currentPlayerVideo - 1];
-
-  const [notes, setNotes] = useState([
-    { time: 10, text: "Note 1" },
-    { time: 20, text: "Note 2" },
-    { time: 30, text: "Note 3" },
-  ]);
 
   const [currentTime, setCurrentTime] = useState(0);
   const playerRef = useRef(null);
@@ -63,7 +57,9 @@ const VideoPlayer = () => {
   };
 
   return (
-    <VideoContext.Provider value={{ playlistId, videoId, currentTime }}>
+    <VideoContext.Provider
+      value={{ playlistId, videoId, currentTime, handleTimeClick }}
+    >
       <Box>
         <Box>
           <>
@@ -93,7 +89,11 @@ const VideoPlayer = () => {
           Current Time: {formatTime(currentTime)}
         </p>
         <Box>
-          <Typography sx={{ marginTop: 3 }} variant="h5" color="text.primary">
+          <Typography
+            sx={{ marginTop: 3 }}
+            variant="subtitle2"
+            color="text.primary"
+          >
             {title}
           </Typography>
         </Box>

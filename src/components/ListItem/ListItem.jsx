@@ -44,6 +44,7 @@ const ListItem = ({
   // remove playlist
   const removePlaylist = (playlistId) => {
     playlistAction.removePlaylist(playlistId);
+    playlistAction.removeNotes(playlistId);
     favPlaylist.removeFromFavorite(playlistId);
   };
 

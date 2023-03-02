@@ -5,7 +5,7 @@ const playerModel = persist({
     currentVideo: 1,
     addPlayer: action((state, videoItem) => {
         state.items = [];
-        state.currentVideo = 1;
+        state.currentVideo = 1
         state.items.push(...videoItem);
     }),
     addCurrentVideo: action((state, index) => {

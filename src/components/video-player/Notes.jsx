@@ -11,22 +11,29 @@ import TextField from "@mui/material/TextField";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { useContext, useState } from "react";
 
+import shortid from "shortid";
+import NotesView from "./NotesView";
 import VideoContext from "./videoContext";
-import ViewNotes from "./ViewNotes";
 
 const Notes = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
   const [value, setValue] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [editNote, setEditNote] = useState({});
 
-  const { playlistId, videoId, currentTime } = useContext(VideoContext);
+  const { playlistId, videoId, currentTime, handleTimeClick } =
+    useContext(VideoContext);
   const playlistNotes = useStoreState((actions) => actions.playlists.notes);
   const playlistAction = useStoreActions((actions) => actions.playlists);
 
-  console.log(
-    "playlistNotes[playlistId].videoId.length",
-    playlistNotes[playlistId]?.videoId
-  );
+  let currentVideoNotes = [];
+  const playlistNotesArray = Object.values(playlistNotes);
+  if (playlistNotes[playlistId] && playlistNotesArray.length > 0) {
+    currentVideoNotes = playlistNotes[playlistId][videoId];
+  }
+
+  console.log("currentVideoNotes", currentVideoNotes);
 
   const handleClickOpen = () => {
     setOpen(!open);
@@ -34,19 +41,54 @@ const Notes = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setEdit(false);
+  };
+
+  let note = {
+    id: shortid.generate(),
+    title: value,
+    time: currentTime,
   };
 
   const handleSubmit = (e) => {
     // e.preventDefault;
     if (!value) return setError("Please Write notes");
-    const note = {
-      playlistId,
-      [videoId]: [{ value, time: currentTime }],
-    };
-    playlistAction.addNotes(note);
-    console.log("note", note);
+
+    if (edit) {
+      playlistAction.editNotesItem({ ...editNote, title: value });
+      setEditNote({});
+    } else {
+      const payload = {
+        playlistId,
+        [videoId]: currentVideoNotes ? [...currentVideoNotes, note] : [note],
+      };
+      playlistAction.addNotes({ payload, videoId });
+    }
     setError("");
+    setEdit(false);
+    setValue("");
     handleClose();
+    setOpen(false);
+  };
+
+  const editItem = (noteId) => {
+    const { id, title, time } = currentVideoNotes.find(
+      (item) => item.id === noteId
+    );
+    setEditNote({ playlistId, videoId, noteId, time });
+    setValue(title);
+    setOpen(true);
+    setEdit(true);
+  };
+
+  const deleteItem = (id) => {
+    const deletedNote = {
+      playlistId,
+      videoId,
+      noteId: id,
+    };
+    alert("Deleted SuccessFully");
+    playlistAction.removeNotesItem(deletedNote);
   };
 
   return (
@@ -57,10 +99,11 @@ const Notes = () => {
         </IconButton>
         <Box>
           <Dialog open={open} onClose={() => handleClose()}>
-            <DialogTitle>Add Notes</DialogTitle>
+            <DialogTitle>{edit ? "Edit Notes" : "Add Notes"}</DialogTitle>
             <DialogContent>
               <TextField
                 error={error && true}
+                value={value}
                 autoFocus
                 margin="dense"
                 id="name"
@@ -73,13 +116,22 @@ const Notes = () => {
             </DialogContent>
             <DialogActions>
               <Button onClick={() => handleClose()}>Cancel</Button>
-              <Button onClick={() => handleSubmit()}>Add Notes</Button>
+              <Button onClick={() => handleSubmit()}>
+                {edit ? "Edit Notes" : "Add Notes"}
+              </Button>
             </DialogActions>
           </Dialog>
         </Box>
       </Stack>
       <Stack direction="row">
-        <ViewNotes />
+        {currentVideoNotes && (
+          <NotesView
+            currentVideoNotes={currentVideoNotes}
+            deleteItem={deleteItem}
+            editItem={editItem}
+            handleTimeClick={handleTimeClick}
+          />
+        )}
       </Stack>
     </Box>
   );

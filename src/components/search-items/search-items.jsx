@@ -1,16 +1,15 @@
+import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useStoreState } from "easy-peasy";
 import ListItem from "../ListItem/ListItem";
 
-const SearchItems = () => {
-  const searchItems = useStoreState((actions) => actions.searchItems.items);
+const SearchItems = ({ searchItems, margin }) => {
   return (
-    <div>
-      <div>
+    <Box>
+      <Box>
         {searchItems.length > 0 && (
-          <Container maxWidth={"md"} sx={{ marginTop: 16 }}>
+          <Container maxWidth={"md"} sx={{ marginTop: margin }}>
             <Typography
               variant="h5"
               color="text.primary"
@@ -32,8 +31,8 @@ const SearchItems = () => {
             </Grid>
           </Container>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

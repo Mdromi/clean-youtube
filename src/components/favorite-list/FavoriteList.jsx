@@ -1,18 +1,13 @@
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useStoreState } from "easy-peasy";
 import ListItem from "../ListItem/ListItem";
 
-const FavoriteList = () => {
-  const playlists = useStoreState((actions) => actions.playlists.data);
-  const favPlaylist = useStoreState((action) => action.favorites.items);
-  const playlistArray = Object.values(playlists);
-
+const FavoriteList = ({ playlistArray, favPlaylist, margin }) => {
   return (
     <div>
       {favPlaylist.length > 0 && (
-        <Container maxWidth={"md"} sx={{ marginTop: 16 }}>
+        <Container maxWidth={"md"} sx={{ marginTop: margin }}>
           <Typography
             variant="h5"
             color="text.primary"

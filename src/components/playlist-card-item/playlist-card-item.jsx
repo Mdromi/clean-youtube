@@ -1,16 +1,14 @@
+import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useStoreState } from "easy-peasy";
 import ListItem from "../ListItem/ListItem";
 
-const PlaylistCardItem = () => {
-  const playlists = useStoreState((actions) => actions.playlists.data);
-  const playlistArray = Object.values(playlists);
+const PlaylistCardItem = ({ playlistArray, margin }) => {
   return (
-    <div>
+    <Box>
       {playlistArray.length > 0 && (
-        <Container maxWidth={"md"} sx={{ marginTop: 6 }}>
+        <Container maxWidth={"md"} sx={{ marginTop: margin }}>
           <Typography
             variant="h5"
             color="text.primary"
@@ -32,7 +30,7 @@ const PlaylistCardItem = () => {
           </Grid>
         </Container>
       )}
-    </div>
+    </Box>
   );
 };
 

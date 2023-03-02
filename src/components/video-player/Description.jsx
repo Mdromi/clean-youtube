@@ -57,9 +57,11 @@ const Description = ({ description }) => {
             {description}
           </Typography>
         </TabPanel>
-        <TabPanel value={tabValue} index={1} dir={theme.direction}>
-          <Notes />
-        </TabPanel>
+        <Box sx={{ bgcolor: "#E7EBF0", borderRadius: 2 }}>
+          <TabPanel value={tabValue} index={1} dir={theme.direction}>
+            <Notes />
+          </TabPanel>
+        </Box>
       </Box>
     </Box>
   );
