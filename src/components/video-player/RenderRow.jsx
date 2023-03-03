@@ -7,14 +7,14 @@ import Typography from "@mui/material/Typography";
 import { useStoreState } from "easy-peasy";
 
 const RenderRow = ({ video, index }) => {
-  const { contentDetails, description, thumbnails, title } = { ...video };
+  const { thumbnails, title } = { ...video };
 
   // get current video
   const currentVideo = useStoreState(
     (actions) => actions.currentPlayerItems.currentVideo
   );
   return (
-    <>
+    <Box>
       <Typography
         sx={{ marginRight: 2 }}
         variant="subtitle1"
@@ -32,13 +32,13 @@ const RenderRow = ({ video, index }) => {
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography component="div" variant="subtitle1">
+            <Typography component="span" variant="subtitle1">
               {`${title.length > 40 ? title.substr(0, 40) + "..." : title}`}
             </Typography>
           </CardContent>
         </Box>
       </Card>
-    </>
+    </Box>
   );
 };
 

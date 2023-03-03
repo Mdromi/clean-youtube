@@ -2,7 +2,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { alpha, styled } from "@mui/material/styles";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -47,26 +46,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchBtn = () => {
   const searchItems = useStoreActions((actions) => actions.searchItems);
-  const playlists = useStoreState((actions) => actions.playlists.data);
-  const playlistArray = Object.values(playlists);
+  const playlistArray = Object.values(
+    useStoreState((actions) => actions.playlists.data)
+  );
 
-  const [state, setState] = useState("");
-
-  console.log("playlistArray", playlistArray);
-
+  // handle playlist search
   const handleSearch = (value) => {
     let matches = playlistArray.filter((item) =>
       item.playlistTitle.toLowerCase().includes(value)
     );
     matches = [...new Set(matches)];
-    console.log("matches", matches);
     if (!matches.length) searchItems.removeToSearch();
     matches.map((item) => searchItems.addToSearch(item));
   };
 
   const handleChange = (e) => {
     e.preventDefault();
-    setState(e.target.value.toLowerCase());
     let value = e.target.value.toLowerCase();
 
     if (value.length > 0) handleSearch(value);

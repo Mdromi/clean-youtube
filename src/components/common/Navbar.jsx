@@ -7,16 +7,18 @@ import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-
-import { Link as RouterLink } from "react-router-dom";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import AddPlaylist from "../form/AddPlaylist";
 import SearchBtn from "../form/SearchBtn";
 
 const Navbar = () => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

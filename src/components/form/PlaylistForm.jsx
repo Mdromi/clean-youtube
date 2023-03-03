@@ -12,13 +12,12 @@ const PlaylistForm = ({ open, handleClose, getPlaylistId }) => {
   const [state, setState] = useState("");
   const [error, setError] = useState(null);
 
+  // add new playlist url
   const handleSubmit = (e) => {
-    // TODO handle url later
     if (!state) alert("Invalid State");
     else {
-      if (!validatePlaylistId(state)) {
-        setError("Url Invalid!..");
-      } else {
+      if (!validatePlaylistId(state)) setError("Url Invalid!..");
+      else {
         getPlaylistId(validatePlaylistId(state));
         setState("");
         setError(null);

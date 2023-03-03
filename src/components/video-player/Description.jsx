@@ -10,7 +10,7 @@ const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
@@ -22,7 +22,7 @@ const TabPanel = (props) => {
           <Typography>{children}</Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
@@ -35,7 +35,7 @@ const Description = ({ description }) => {
   };
 
   const handleChangeIndex = (index) => {
-    setValue(index);
+    setTabValue(index);
   };
   return (
     <Box sx={{ marginTop: 3, marginBottom: 10 }}>
@@ -50,7 +50,7 @@ const Description = ({ description }) => {
       <Box
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={tabValue}
-        onChangeIndex={handleChangeIndex}
+        // onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={tabValue} index={0} dir={theme.direction}>
           <Typography sx={{ marginTop: 3 }} variant="p" color="text.primary">

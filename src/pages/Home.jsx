@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import { useStoreState } from "easy-peasy";
 import React from "react";
-import FavoriteList from "../components/favorite-list/FavoriteList";
-import PlaylistCardItem from "../components/playlist-card-item/playlist-card-item";
-import SearchItems from "../components/search-items/search-items";
+import ListGroup from "../components/ListItem/ListGroup";
 
 const Home = () => {
   // get all playlist from store & convert array
@@ -17,10 +17,15 @@ const Home = () => {
   // get all searchItems from store
   const searchItems = useStoreState((actions) => actions.searchItems.items);
 
-  // set default margin
-  const DEFAULT_MARGIN = 12;
-  const SET_MARGIN = 14;
+  // get recent videos from store
+  const recentVideosId = useStoreState((actions) => actions.recentVideos.items);
+  const recentVideos = playlistArray.filter((item) =>
+    recentVideosId.includes(item.playlistId)
+  );
 
+  // get and set margin
+  const DEFAULT_MARGIN = 16;
+  const SET_MARGIN = 10;
   const getMargin = (items) => {
     switch (items) {
       case "PlaylistCardItem":
@@ -29,7 +34,12 @@ const Home = () => {
         return DEFAULT_MARGIN;
 
       case "FavoriteList":
-        if (searchItems.length > 0) return SET_MARGIN;
+        if (recentVideos.length > 0 || searchItems.length > 0)
+          return SET_MARGIN;
+        return DEFAULT_MARGIN;
+      case "RecentVideos":
+        if (recentVideos.length > 0 || searchItems.length > 0)
+          return SET_MARGIN;
         return DEFAULT_MARGIN;
       default:
         return DEFAULT_MARGIN;
@@ -38,16 +48,43 @@ const Home = () => {
 
   return (
     <Box>
-      <SearchItems searchItems={searchItems} margin={DEFAULT_MARGIN} />
-      <FavoriteList
-        playlistArray={playlistArray}
-        favPlaylist={favoriteList}
-        margin={getMargin("FavoriteList")}
-      />
-      <PlaylistCardItem
-        playlistArray={playlistArray}
-        margin={getMargin("PlaylistCardItem")}
-      />
+      {playlistArray.length == 0 ? (
+        <Container
+          maxWidth={"md"}
+          sx={{ marginTop: getMargin("") + 10, textAlign: "center" }}
+        >
+          <Typography variant="h2" color="text.primary">
+            ADD NEW PLAYLIST...
+          </Typography>
+        </Container>
+      ) : (
+        <Box>
+          <ListGroup
+            title={"Search Items"}
+            listArray={searchItems}
+            margin={getMargin("")}
+          />
+          <ListGroup
+            title={"Recent"}
+            listArray={recentVideos}
+            margin={getMargin("RecentVideos")}
+          />
+          {favoriteList.length > 0 && (
+            <ListGroup
+              title={"Favorites"}
+              listArray={playlistArray}
+              favoriteList={favoriteList}
+              fav={true}
+              margin={getMargin("FavoriteList")}
+            />
+          )}
+          <ListGroup
+            title={"All Playlist"}
+            listArray={playlistArray}
+            margin={getMargin("PlaylistCardItem")}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

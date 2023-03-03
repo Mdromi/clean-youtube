@@ -8,9 +8,9 @@ import searchModel from './search-model';
 const store = createStore({
     playlists: playlistModel,
     favorites: favoritesModel,
-    recent: recentModel,
     searchItems: searchModel,
-    currentPlayerItems: playerModel
+    currentPlayerItems: playerModel,
+    recentVideos: recentModel
 })
 
 export default store;

@@ -11,14 +11,11 @@ function App() {
   const Id2 = "PL-J2q3Ga50oMQa1JdSJxYoZELwOJAXExP";
   const Id3 = "PL6QREj8te1P5k_kIM2-8E4VP9Sej0Yez3";
   const Id4 = "PLTjRvDozrdlxlMnoG9_yJKPMxMJu8FWRK";
+  const Id5 = "PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl";
   console.log("list", list);
 
   useEffect(() => {
     playlist.getPlaylist(Id);
-    // playlist.getPlaylist(Id1);
-    // playlist.getPlaylist(Id2);
-    // playlist.getPlaylist(Id3);
-    // playlist.getPlaylist(Id4);
   }, []);
 
   return <AppRoutes />;

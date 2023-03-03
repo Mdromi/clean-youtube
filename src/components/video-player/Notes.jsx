@@ -22,38 +22,44 @@ const Notes = () => {
   const [edit, setEdit] = useState(false);
   const [editNote, setEditNote] = useState({});
 
+  // get video context data
   const { playlistId, videoId, currentTime, handleTimeClick } =
     useContext(VideoContext);
+
+  // playlist store data & action
   const playlistNotes = useStoreState((actions) => actions.playlists.notes);
   const playlistAction = useStoreActions((actions) => actions.playlists);
 
-  let currentVideoNotes = [];
+  //convert playlistNotes to playlistNotesArray
   const playlistNotesArray = Object.values(playlistNotes);
-  if (playlistNotes[playlistId] && playlistNotesArray.length > 0) {
+
+  let currentVideoNotes = [];
+
+  // get current playlist video notes & set
+  if (playlistNotes[playlistId] && playlistNotesArray.length > 0)
     currentVideoNotes = playlistNotes[playlistId][videoId];
-  }
 
-  console.log("currentVideoNotes", currentVideoNotes);
-
+  // handle from open or false
   const handleClickOpen = () => {
     setOpen(!open);
   };
-
   const handleClose = () => {
     setOpen(false);
     setEdit(false);
   };
 
+  // new note initial
   let note = {
     id: shortid.generate(),
     title: value,
     time: currentTime,
   };
 
+  // submit edit or new note
   const handleSubmit = (e) => {
-    // e.preventDefault;
     if (!value) return setError("Please Write notes");
 
+    // check editable note or new note
     if (edit) {
       playlistAction.editNotesItem({ ...editNote, title: value });
       setEditNote({});
@@ -65,12 +71,12 @@ const Notes = () => {
       playlistAction.addNotes({ payload, videoId });
     }
     setError("");
-    setEdit(false);
     setValue("");
+    setEdit(false);
     handleClose();
-    setOpen(false);
   };
 
+  // edit note item
   const editItem = (noteId) => {
     const { id, title, time } = currentVideoNotes.find(
       (item) => item.id === noteId
@@ -81,14 +87,17 @@ const Notes = () => {
     setEdit(true);
   };
 
+  // delete note item
   const deleteItem = (id) => {
     const deletedNote = {
       playlistId,
       videoId,
       noteId: id,
     };
-    alert("Deleted SuccessFully");
-    playlistAction.removeNotesItem(deletedNote);
+
+    const text = "Are you sure delete your note?";
+    // delete notes
+    if (confirm(text) == true) playlistAction.removeNotesItem(deletedNote);
   };
 
   return (
@@ -108,7 +117,7 @@ const Notes = () => {
                 margin="dense"
                 id="name"
                 label="Write your notes"
-                type="text"
+                type="email"
                 fullWidth
                 variant="standard"
                 onChange={(e) => setValue(e.target.value)}

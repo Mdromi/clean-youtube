@@ -20,18 +20,24 @@ const ListItem = ({
   channelTitle,
   playlistId,
 }) => {
+  // playlist & favList action from store
   const favPlaylist = useStoreActions((action) => action.favorites);
   const playlistAction = useStoreActions((action) => action.playlists);
+  const recentVideosAction = useStoreActions((action) => action.recentVideos);
 
+  // get playlist & favList from store
   const playlists = useStoreState((actions) => actions.playlists.data);
   const favPlaylistsItems = useStoreState((actions) => actions.favorites.items);
 
   let playlistFind = null;
 
+  // has favorite playlist on playlists store?
+  const current = playlists[playlistId];
+  if (!current) return;
+
   // set & remove favorite items on (playlist | favPlaylist)
   const favorites = (playlistId) => {
     playlistFind = favPlaylistsItems.find((ele) => ele === playlistId);
-    console.log("click");
     if (!playlistFind) {
       playlists[playlistId].favorite = true;
       return favPlaylist.addFavorite(playlistId);
@@ -41,11 +47,15 @@ const ListItem = ({
     }
   };
 
-  // remove playlist
+  // remove playlist from store
   const removePlaylist = (playlistId) => {
-    playlistAction.removePlaylist(playlistId);
-    playlistAction.removeNotes(playlistId);
-    favPlaylist.removeFromFavorite(playlistId);
+    const text = "Are you sure delete your playlist?";
+    if (confirm(text) == true) {
+      playlistAction.removePlaylist(playlistId);
+      playlistAction.removeNotes(playlistId);
+      favPlaylist.removeFromFavorite(playlistId);
+      recentVideosAction.removeRecent(playlistId);
+    }
   };
 
   return (
@@ -64,7 +74,7 @@ const ListItem = ({
         alt={playlistTitle}
       />
       <CardContent>
-        <Typography variant="h6" color="text.primary">
+        <Typography variant="span" color="text.primary">
           {`${
             playlistTitle.length > 50
               ? playlistTitle.substr(0, 50) + "..."
@@ -86,6 +96,7 @@ const ListItem = ({
               </Typography>
             </Stack>
           </Button>
+          {/* {console.log("playlists[playlistId]", playlists[playlistId])} */}
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <IconButton size="medium" onClick={() => favorites(playlistId)}>
               {playlists[playlistId].favorite ? (

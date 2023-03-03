@@ -17,6 +17,7 @@ import RenderRow from "./RenderRow";
 const VideoList = () => {
   const [open, setOpen] = useState(true);
 
+  // handle playlist side video list collapse
   const handleCollapseClick = () => {
     setOpen(!open);
   };
@@ -28,6 +29,9 @@ const VideoList = () => {
   const currentPlayer = useStoreActions(
     (actions) => actions.currentPlayerItems
   );
+
+  // recent video action
+  const recentVideosAction = useStoreActions((action) => action.recentVideos);
 
   // get current player items
   const currentPlayerItems = useStoreState(
@@ -47,12 +51,14 @@ const VideoList = () => {
   // set current player items
   useEffect(() => {
     currentPlayer.addPlayer(current.playlistItems);
+    recentVideosAction.addToRecent(playlistId);
   }, []);
 
   const { channelTitle, playlistTitle } = { ...current };
 
   return (
-    <>
+    <Box>
+      {/* Collapse  */}
       <List sx={{ padding: 0 }}>
         <ListItemButton onClick={handleCollapseClick}>
           <ListItemIcon>
@@ -68,6 +74,7 @@ const VideoList = () => {
         </ListItemButton>
       </List>
 
+      {/* video list view */}
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box
           sx={{
@@ -89,7 +96,7 @@ const VideoList = () => {
           </List>
         </Box>
       </Collapse>
-    </>
+    </Box>
   );
 };
 

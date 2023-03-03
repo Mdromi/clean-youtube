@@ -46,12 +46,6 @@ const playlistModel = persist({
       state.notes[payload.playlistId][videoId].push(newNote);
     else if (!currentNotes[videoId])
       state.notes[payload.playlistId][videoId] = [newNote];
-      
-    console.log(
-      "Object.values(playlistNotes);",
-      Object.values(payload)[1],
-      videoId
-    );
   }),
   editNotesItem: action(
     (state, { playlistId, videoId, noteId, title, time }) => {

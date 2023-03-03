@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { Fragment } from "react";
 import formatTime from "../../utils/formatTime";
 
 const NotesView = ({
@@ -20,8 +21,8 @@ const NotesView = ({
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <List>
         {currentVideoNotes.map((item, index) => (
-          <>
-            <Box key={index} sx={{ padding: 2 }}>
+          <Fragment key={index}>
+            <Box sx={{ padding: 2 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Stack direction="row" spacing={2}>
                   <Button
@@ -32,7 +33,7 @@ const NotesView = ({
                   >
                     {formatTime(item.time)}
                   </Button>
-                  <Typography variant="h6" color="text.primary">
+                  <Typography variant="span" color="text.primary">
                     {item.title}
                   </Typography>
                 </Stack>
@@ -55,7 +56,7 @@ const NotesView = ({
               </Box>
             </Box>
             <Divider />
-          </>
+          </Fragment>
         ))}
       </List>
     </Box>
